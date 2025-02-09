@@ -1,62 +1,62 @@
 package com.weatherapp.myweatherapp.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CityInfo {
 
   @JsonProperty("address")
-  String address;
+  public String address;
 
   @JsonProperty("description")
-  String description;
+  public String description;
 
   @JsonProperty("currentConditions")
-  CurrentConditions currentConditions;
+  public CurrentConditions currentConditions;
 
   @JsonProperty("days")
-  List<Days> days;
+  public List<Days> days;
 
-  static class CurrentConditions {
+  public static class CurrentConditions {
     @JsonProperty("temp")
-    String currentTemperature;
+    public String currentTemperature;
 
     @JsonProperty("sunrise")
-    String sunrise;
+    public String sunrise;
 
     @JsonProperty("sunset")
-    String sunset;
+    public String sunset;
 
     @JsonProperty("feelslike")
-    String feelslike;
+    public String feelslike;
 
     @JsonProperty("humidity")
-    String humidity;
+    public String humidity;
 
     @JsonProperty("conditions")
-    String conditions;
+    public String conditions;
   }
 
-  static class Days {
+  public static class Days {
 
     @JsonProperty("datetime")
-    String date;
+    public String date;
 
     @JsonProperty("temp")
-    String currentTemperature;
+    public String currentTemperature;
 
     @JsonProperty("tempmax")
-    String maxTemperature;
+    public String maxTemperature;
 
     @JsonProperty("tempmin")
-    String minTemperature;
+    public String minTemperature;
 
     @JsonProperty("conditions")
-    String conditions;
+    public String conditions;
 
     @JsonProperty("description")
-    String description;
-
+    public String description;
   }
-
 }

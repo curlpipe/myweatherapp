@@ -1,9 +1,14 @@
 - [ ] Familiarise self with maven and spring
 - [X] Get an API key and attach it to the program
 - [X] Successfully get the program built as-is
-- [ ] Explore the codebase
-- [ ] Implement daylight hours comparison
+- [X] Explore the codebase
+- [X] Implement daylight hours comparison
 - [ ] Implement rain check
 - [ ] Write tests to verify the above
-- [ ] Final checks (maintainabilitpy, exception handling)
+- [ ] Final checks (maintainability, exception handling)
+    - [ ] Readme
+    - [ ] Comments
+    - [ ] Bad HTTP parameters
+    - [ ] Code formatter
+    - [ ] API error
 - [ ] Upload to github & submit via email (mentioning the absence of a pull request)
