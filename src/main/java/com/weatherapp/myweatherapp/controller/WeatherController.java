@@ -15,11 +15,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * The weather controller for working with weather-related data
+ *
+ * @author Luke (curlpipe)
+ */
 @Controller
 public class WeatherController {
 
     @Autowired WeatherService weatherService;
 
+    /**
+     * This method provides weather forecast data in JSON format
+     *
+     * Example query: GET /forecast/London
+     *
+     * @param city This is the city to get the forecast
+     * @return The weather forecast for the provided city in JSON format
+     */
     @GetMapping("/forecast/{city}")
     public ResponseEntity<CityInfo> forecastByCity(@PathVariable("city") String city) {
 
@@ -85,8 +98,35 @@ public class WeatherController {
         CityInfo city1Info = weatherService.forecastByCity(city1);
         CityInfo city2Info = weatherService.forecastByCity(city2);
 
-        // Based on the Visual Crossing Weather API, create a list of all condition codes where rain
-        // occurs
+        // Find out if any of the conditions for each city involves rain
+        boolean city1Raining = hasRain(city1Info.currentConditions.conditions);
+        boolean city2Raining = hasRain(city2Info.currentConditions.conditions);
+
+        // Return a some text describing the difference in rain between the two cities
+        if (city1Raining && city2Raining) {
+            // Raining in both cities
+            return ResponseEntity.ok(String.format("Rain in %s and %s", city1, city2));
+        } else if (city1Raining) {
+            // Only raining in city 1
+            return ResponseEntity.ok(String.format("Rain in %s only", city1));
+        } else if (city2Raining) {
+            // Only raining in city 2
+            return ResponseEntity.ok(String.format("Rain in %s only", city2));
+        } else {
+            // No rain in either city
+            return ResponseEntity.ok(String.format("No rain in %s nor %s", city1, city2));
+        }
+    }
+
+    /**
+     * This is a helper method for working out if a weather
+     * condition from the Visual Crossing API involves rain
+     *
+     * @param condition The condition given by the Visual Crossing API
+     * @return A boolean that is true if there is rain, otherwise false
+     */
+    public boolean hasRain(String condition) {
+        // Based on the Visual Crossing API, create a set of raining conditions
         // Here, I assume that ice, dust, snow and hail are not rain
         Set<String> rainCodes = new HashSet<>();
         rainCodes.add("Heavy Freezing Drizzle/Freezing Rain");
@@ -110,29 +150,8 @@ public class WeatherController {
         rainCodes.add("Light Drizzle/Rain");
         rainCodes.add("Freezing Drizzle/Freezing Rain");
 
-        // Extract the conditions for each city and determine if it is raining there
-        String[] city1Conditions = city1Info.currentConditions.conditions.split(", ");
-        String[] city2Conditions = city2Info.currentConditions.conditions.split(", ");
-        boolean city1Raining =
-                Arrays.stream(city1Conditions).map(String::trim).anyMatch(rainCodes::contains);
-        boolean city2Raining =
-                Arrays.stream(city2Conditions).map(String::trim).anyMatch(rainCodes::contains);
-
-        // Return a some text describing the difference in rain between the two cities
-        if (city1Raining && city2Raining) {
-            // Raining in both cities
-            return ResponseEntity.ok(
-                    String.format("It is raining in both %s and %s", city1, city2));
-        } else if (city1Raining) {
-            // Only raining in city 1
-            return ResponseEntity.ok(String.format("It is only raining in %s", city1));
-        } else if (city2Raining) {
-            // Only raining in city 2
-            return ResponseEntity.ok(String.format("It is only raining in %s", city2));
-        } else {
-            // No rain in either city
-            return ResponseEntity.ok(
-                    String.format("It is raining in neither %s nor %s", city1, city2));
-        }
+        // Break up list of conditions and check if any involve rain
+        String[] conditions = condition.split(", ");
+        return Arrays.stream(conditions).map(String::trim).anyMatch(rainCodes::contains);
     }
 }

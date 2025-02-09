@@ -1,9 +1,9 @@
-- [ ] Familiarise self with maven and spring
+- [X] Familiarise self with maven and spring
 - [X] Get an API key and attach it to the program
 - [X] Successfully get the program built as-is
 - [X] Explore the codebase
 - [X] Implement daylight hours comparison
-- [ ] Implement rain check
+- [X] Implement rain check
 - [ ] Write tests to verify the above
 - [ ] Final checks (maintainability, exception handling)
     - [ ] Readme
