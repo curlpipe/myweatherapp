@@ -1,62 +1,62 @@
 package com.weatherapp.myweatherapp.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CityInfo {
 
-  @JsonProperty("address")
-  String address;
-
-  @JsonProperty("description")
-  String description;
-
-  @JsonProperty("currentConditions")
-  CurrentConditions currentConditions;
-
-  @JsonProperty("days")
-  List<Days> days;
-
-  static class CurrentConditions {
-    @JsonProperty("temp")
-    String currentTemperature;
-
-    @JsonProperty("sunrise")
-    String sunrise;
-
-    @JsonProperty("sunset")
-    String sunset;
-
-    @JsonProperty("feelslike")
-    String feelslike;
-
-    @JsonProperty("humidity")
-    String humidity;
-
-    @JsonProperty("conditions")
-    String conditions;
-  }
-
-  static class Days {
-
-    @JsonProperty("datetime")
-    String date;
-
-    @JsonProperty("temp")
-    String currentTemperature;
-
-    @JsonProperty("tempmax")
-    String maxTemperature;
-
-    @JsonProperty("tempmin")
-    String minTemperature;
-
-    @JsonProperty("conditions")
-    String conditions;
+    @JsonProperty("address")
+    public String address;
 
     @JsonProperty("description")
-    String description;
+    public String description;
 
-  }
+    @JsonProperty("currentConditions")
+    public CurrentConditions currentConditions;
 
+    @JsonProperty("days")
+    public List<Days> days;
+
+    public static class CurrentConditions {
+        @JsonProperty("temp")
+        public String currentTemperature;
+
+        @JsonProperty("sunrise")
+        public String sunrise;
+
+        @JsonProperty("sunset")
+        public String sunset;
+
+        @JsonProperty("feelslike")
+        public String feelslike;
+
+        @JsonProperty("humidity")
+        public String humidity;
+
+        @JsonProperty("conditions")
+        public String conditions;
+    }
+
+    public static class Days {
+
+        @JsonProperty("datetime")
+        public String date;
+
+        @JsonProperty("temp")
+        public String currentTemperature;
+
+        @JsonProperty("tempmax")
+        public String maxTemperature;
+
+        @JsonProperty("tempmin")
+        public String minTemperature;
+
+        @JsonProperty("conditions")
+        public String conditions;
+
+        @JsonProperty("description")
+        public String description;
+    }
 }

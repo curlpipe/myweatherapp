@@ -1,40 +1,37 @@
 # MyWeather App Tech Test
 
-Welcome to the MyWeather App Tech Test.
+## Code Explanation
 
-## The Challenge
+I added two new endpoints
 
-You are tasked with implementing two new features in the app:
+- `/longest_daylight` - This will return the name of the city with the longest daylight
+- `/raining_in` - This will return which cities currently have rain in them
 
-1. **Daylight Hours Comparison:** Given two city names, compare the length of the daylight hours between them and return the city with the longest day. In this context, "daylight hours" means the time between sunrise and sunset.
+These can be found in `WeatherController.java`
 
-2. **Rain Check:** Given two city names, check which city it is currently raining in.
+## Design Choices
 
-In addition to implementing these 2 features, you will also need to write tests verifying that your code works as expected.
+### General Design Choices
 
-If possible, include exception handling in the controller.
+- I spotted that there was a risk my API key could be committed in the `application.properties` file - I made sure to add this to `.gitignore`
+- I used JavaDoc style doc strings throughout the weather controller class for clarity of implementation - this can be generated through the maven plug-in I added: `mvn javadoc:javadoc`
+- I used a tool called `Spotless` attached to maven to help ensure code was correctly formatted
 
-Finally, you can write any documentation as you see fit, explaining your choices and how the code works.
+### Weather Controller
 
-## The Codebase
+- For both endpoints, I used HTTP arguments over path variables because they seem more appropriate when passing in multiple arguments.
+- Tests can be found in `WeatherControllerTest.java` - I have tested the utility functions and simulated mock data / HTTP requests to verify my methods work correctly
+- My tests attempt to cover the entirety of the input domain to ensure no stone is unturned
+- Each endpoint in the weather controller is robust and will handle exceptions including missing HTTP arguments and API query issues
 
-The codebase is a Java application built with the Spring framework. It includes a `WeatherController` class where you will add your new features.
+## Example Requests & Responses
 
-## Implementation Details
+![](https://i.postimg.cc/0y85XxqL/image.png)
 
-You will need to implement these features by adding new endpoints to the `WeatherController`.
+![](https://i.postimg.cc/CK5hYN57/image.png)
 
-### Prerequisites
+![](https://i.postimg.cc/ydS738FS/image.png)
 
-- [Java sdk 17](https://openjdk.java.net/projects/jdk/17/)
-- [Maven 3.6.3+](https://maven.apache.org/install.html)
-- API key for [Visual Crossing Weather API](https://www.visualcrossing.com/weather-data-editions). 
-  - This can be done by creating a free account on the above link. Then you will need to add your key to the `weather.visualcrossing.key` field in src/main/resources/application.properties
+![](https://i.postimg.cc/j2bYWQxG/image.png)
 
-## Submission
 
-* Push the downloaded version of this repo to your Github
-* Make a branch for your changes
-* Once you're ready to submit, raise a Pull Request to merge your changes with your main branch and share the repo with us.
-
-Good luck!
