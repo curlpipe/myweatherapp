@@ -4,11 +4,11 @@
 - [X] Explore the codebase
 - [X] Implement daylight hours comparison
 - [X] Implement rain check
-- [ ] Write tests to verify the above
-- [ ] Final checks (maintainability, exception handling)
-    - [ ] Readme
-    - [ ] Comments
-    - [ ] Bad HTTP parameters
-    - [ ] Code formatter
-    - [ ] API error
-- [ ] Upload to github & submit via email (mentioning the absence of a pull request)
+- [X] Write tests to verify the above
+- [X] Final checks (maintainability, exception handling)
+    - [X] Readme
+    - [X] Comments
+    - [X] Bad HTTP parameters
+    - [X] Code formatter
+    - [X] API error
+- [X] Upload to github & submit via email (mentioning the absence of a pull request)

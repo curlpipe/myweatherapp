@@ -1,8 +1,5 @@
 # MyWeather App Tech Test
 
-Todo:
-- [ ] If possible, include exception handling in the controller.
-
 ## Code Explanation
 
 I added two new endpoints
@@ -27,6 +24,14 @@ These can be found in `WeatherController.java`
 - My tests attempt to cover the entirety of the input domain to ensure no stone is unturned
 - Each endpoint in the weather controller is robust and will handle exceptions including missing HTTP arguments and API query issues
 
-## Submission
+## Example Requests & Responses
 
-* Once you're ready to submit, raise a Pull Request to merge your changes with your main branch and share the repo with us.
+![](https://i.postimg.cc/0y85XxqL/image.png)
+
+![](https://i.postimg.cc/CK5hYN57/image.png)
+
+![](https://i.postimg.cc/ydS738FS/image.png)
+
+![](https://i.postimg.cc/j2bYWQxG/image.png)
+
+

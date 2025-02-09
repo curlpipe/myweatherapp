@@ -54,10 +54,24 @@ public class WeatherController {
      */
     @GetMapping("/longest_daylight")
     public ResponseEntity<String> longestDaylight(
-            @RequestParam String city1, @RequestParam String city2) {
+            @RequestParam(required = false) String city1,
+            @RequestParam(required = false) String city2) {
+        // Handle exceptions where user hasn't provided correct arguments
+        if (city1 == null || city2 == null) {
+            return ResponseEntity.badRequest()
+                    .body("Ensure you have both `city1` and `city2` parameters");
+        }
+
         // Retrieve the data for the two cities
-        CityInfo city1Info = weatherService.forecastByCity(city1);
-        CityInfo city2Info = weatherService.forecastByCity(city2);
+        CityInfo city1Info;
+        CityInfo city2Info;
+        try {
+            city1Info = weatherService.forecastByCity(city1);
+            city2Info = weatherService.forecastByCity(city2);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Ensure that you have valid names for `city1` and `city2` parameters");
+        }
 
         // Parse sunrise/sunset time data
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -93,10 +107,24 @@ public class WeatherController {
      */
     @GetMapping("/raining_in")
     public ResponseEntity<String> rainingIn(
-            @RequestParam String city1, @RequestParam String city2) {
+            @RequestParam(required = false) String city1,
+            @RequestParam(required = false) String city2) {
+        // Handle exceptions where user hasn't provided correct arguments
+        if (city1 == null || city2 == null) {
+            return ResponseEntity.badRequest()
+                    .body("Ensure you have both `city1` and `city2` parameters");
+        }
+
         // Retrieve the data for the two cities
-        CityInfo city1Info = weatherService.forecastByCity(city1);
-        CityInfo city2Info = weatherService.forecastByCity(city2);
+        CityInfo city1Info;
+        CityInfo city2Info;
+        try {
+            city1Info = weatherService.forecastByCity(city1);
+            city2Info = weatherService.forecastByCity(city2);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Ensure that you have valid names for `city1` and `city2` parameters");
+        }
 
         // Find out if any of the conditions for each city involves rain
         boolean city1Raining = hasRain(city1Info.currentConditions.conditions);
