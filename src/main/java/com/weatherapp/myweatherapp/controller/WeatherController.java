@@ -5,6 +5,9 @@ import com.weatherapp.myweatherapp.service.WeatherService;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,6 +64,75 @@ public class WeatherController {
         } else {
             // City 2 has more daylight
             return ResponseEntity.ok(city2);
+        }
+    }
+
+    /**
+     * This method serves as the endpoint that, between two cities,
+     * will find out which ones are raining.
+     *
+     * Example query: GET /raining_in?city1=Madrid&city2=Ankara
+     * Note that arguments come from HTTP arguments in the URL
+     *
+     * @param city1 This is the first city to compare, you can provide a name, zip code or coordinates
+     * @param city2 This is the second city to compare, you can provide a name, zip code or coordinates
+     * @return A string describing whether neither city has rain, only one city has rain or both have rain
+     */
+    @GetMapping("/raining_in")
+    public ResponseEntity<String> rainingIn(
+            @RequestParam String city1, @RequestParam String city2) {
+        // Retrieve the data for the two cities
+        CityInfo city1Info = weatherService.forecastByCity(city1);
+        CityInfo city2Info = weatherService.forecastByCity(city2);
+
+        // Based on the Visual Crossing Weather API, create a list of all condition codes where rain
+        // occurs
+        // Here, I assume that ice, dust, snow and hail are not rain
+        Set<String> rainCodes = new HashSet<>();
+        rainCodes.add("Heavy Freezing Drizzle/Freezing Rain");
+        rainCodes.add("Light Freezing Drizzle/Freezing Rain");
+        rainCodes.add("Heavy Freezing Rain");
+        rainCodes.add("Light Freezing Rain");
+        rainCodes.add("Drizzle");
+        rainCodes.add("Precipitation In Vicinity");
+        rainCodes.add("Rain");
+        rainCodes.add("Heavy Rain And Snow");
+        rainCodes.add("Light Rain And Snow");
+        rainCodes.add("Rain Showers");
+        rainCodes.add("Heavy Rain");
+        rainCodes.add("Light Rain");
+        rainCodes.add("Heavy Drizzle");
+        rainCodes.add("Snow And Rain Showers");
+        rainCodes.add("Squalls");
+        rainCodes.add("Thunderstorm");
+        rainCodes.add("Light Drizzle");
+        rainCodes.add("Heavy Drizzle/Rain");
+        rainCodes.add("Light Drizzle/Rain");
+        rainCodes.add("Freezing Drizzle/Freezing Rain");
+
+        // Extract the conditions for each city and determine if it is raining there
+        String[] city1Conditions = city1Info.currentConditions.conditions.split(", ");
+        String[] city2Conditions = city2Info.currentConditions.conditions.split(", ");
+        boolean city1Raining =
+                Arrays.stream(city1Conditions).map(String::trim).anyMatch(rainCodes::contains);
+        boolean city2Raining =
+                Arrays.stream(city2Conditions).map(String::trim).anyMatch(rainCodes::contains);
+
+        // Return a some text describing the difference in rain between the two cities
+        if (city1Raining && city2Raining) {
+            // Raining in both cities
+            return ResponseEntity.ok(
+                    String.format("It is raining in both %s and %s", city1, city2));
+        } else if (city1Raining) {
+            // Only raining in city 1
+            return ResponseEntity.ok(String.format("It is only raining in %s", city1));
+        } else if (city2Raining) {
+            // Only raining in city 2
+            return ResponseEntity.ok(String.format("It is only raining in %s", city2));
+        } else {
+            // No rain in either city
+            return ResponseEntity.ok(
+                    String.format("It is raining in neither %s nor %s", city1, city2));
         }
     }
 }
